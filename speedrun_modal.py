@@ -86,6 +86,7 @@ def build_nanochat_image():
             "ca-certificates",
             "pkg-config",
             "libssl-dev",
+            "gcc",
         )
         # Install Rust toolchain
         .run_commands(
@@ -103,7 +104,10 @@ def build_nanochat_image():
         )
         .env({"PATH": "/root/.local/bin:$PATH"})
         # Copy project files
-        .copy_local_dir(".", "/root/nanochat")
+        .add_local_dir(".", 
+                       "/root/nanochat", 
+                       ignore=[".venv", ".git", "__pycache__", "*.pyc", ".pytest_cache"],
+                       copy=True)
         .workdir("/root/nanochat")
         # Install Python dependencies using uv with GPU support
         .run_commands(
