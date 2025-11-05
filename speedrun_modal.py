@@ -102,8 +102,12 @@ def build_nanochat_image():
             "echo 'source $HOME/.local/bin/env' >> ~/.bashrc",
         )
         .env({"PATH": "/root/.local/bin:$PATH"})
-        # Copy project files
-        .copy_local_dir(".", "/root/nanochat")
+        # Copy project files (exclude .venv, .git, and cache directories)
+        .copy_local_dir(
+            ".",
+            "/root/nanochat",
+            exclude=[".venv", ".git", "__pycache__", "*.pyc", ".pytest_cache"]
+        )
         .workdir("/root/nanochat")
         # Install Python dependencies using uv with GPU support
         .run_commands(
