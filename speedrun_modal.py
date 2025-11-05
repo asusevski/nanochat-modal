@@ -131,7 +131,7 @@ nanochat_image = build_nanochat_image()
     image=nanochat_image,
     gpu=modal.gpu.H100(count=8),  # 8xH100 GPUs as used in speedrun.sh
     timeout=60 * 60 * 5,  # 5 hours timeout (speedrun takes ~4 hours)
-    volumes={"/root/.cache": volume},  # Mount volume for persistent data
+    volumes={"/data": volume},  # Mount volume for persistent data
     # Uncomment the line below if you have a wandb secret configured:
     # secrets=[modal.Secret.from_name("wandb-secret")],
 )
