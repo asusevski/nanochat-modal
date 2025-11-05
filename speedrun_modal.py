@@ -107,11 +107,11 @@ def build_nanochat_image():
         .workdir("/root/nanochat")
         # Install Python dependencies using uv with GPU support
         .run_commands(
-            "/root/.local/bin/uv sync --extra gpu",
+            "cd /root/nanochat && /root/.local/bin/uv sync --extra gpu",
         )
         # Build the rustbpe tokenizer with maturin
         .run_commands(
-            "export PATH=/root/.cargo/bin:$PATH && /root/.local/bin/uv run maturin develop --release --manifest-path rustbpe/Cargo.toml",
+            "cd /root/nanochat && export PATH=/root/.cargo/bin:$PATH && /root/.local/bin/uv run maturin develop --release --manifest-path rustbpe/Cargo.toml",
         )
         # Set OMP_NUM_THREADS for performance
         .env({"OMP_NUM_THREADS": "1"})
